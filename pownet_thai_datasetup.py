@@ -8,7 +8,7 @@ yr = 2016
 
 
 ##for the current setup, rest of code can remain unchanged
-SimDays = 365
+SimDays = 365 #365
 SimHours = SimDays * 24
 HorizonHours = 24  ##planning horizon (e.g., 24, 48, 72 hours etc.)
 TransLoss = 0.075  ##transmission loss as a percent of generation
