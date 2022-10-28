@@ -1,10 +1,15 @@
 from pyomo.environ import *
 from pyomo.core.expr.current import identify_variables
-from pyomo.repn.standard_repn import generate_standard_repn
+from PowNet_Myan_v1_3_model import model
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pickle
+
+dat_file = 'C:\\Users\phumt\\pownetClimate\\input\\compiled_data\\data_myan_hydro_2016.dat'
+instance = model.create_instance(dat_file)
+
 
 #%% Extract info on the variables
 var_dict = {}
@@ -29,23 +34,23 @@ print('Total number of variables: {}'.format(num_tot_var))
 
 
 #%% Extract info on the constraints
-# c_dict = {}
-# counting = 0
-# for c in instance.component_objects(Constraint):
-#     for cc in list(c.values()):
-#         # Print Diagnostics
-#         if counting % 2500 == 0:
-#             print(
-#                 'Still processing... Constraint #{} {}'\
-#                     .format(counting, cc.name)
-#                   )
-#         # Extract variables from the current constraint
-#         c_dict[cc.name] = {
-#             'constraints': [str(x) for x in identify_variables(cc.body)]
-#             }
-#         counting += 1
+c_dict = {}
+counting = 0
+for c in instance.component_objects(Constraint):
+    for cc in list(c.values()):
+        # Print Diagnostics
+        if counting % 2500 == 0:
+            print(
+                'Still processing... Constraint #{} {}'\
+                    .format(counting, cc.name)
+                  )
+        # Extract variables from the current constraint
+        c_dict[cc.name] = {
+            'constraints': [str(x) for x in identify_variables(cc.body)]
+            }
+        counting += 1
     
-
+print('Number of constraints: ', len(c_dict))
 
 # # Save the c_dict as pickle
 # with open('constraint_data.pickle', 'wb') as f:
@@ -53,12 +58,11 @@ print('Total number of variables: {}'.format(num_tot_var))
 
 with open('constraint_data.pickle', 'rb') as f:
     c_dict_loaded = pickle.load(f)
-    
-print('Number of constraints: ', len(c_dict))
+
 
 #%% Create A matrix
 # Initialize an empty dataframe
-if 
+
 A_mat = pd.DataFrame(
     False, dtype='bool', columns=var_names_list, index = c_dict.keys()
     )
